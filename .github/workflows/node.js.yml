@@ -36,7 +36,7 @@ jobs:
   uses: appleboy/ssh-action@v0.1.8
   with:
    key : ${{secrets.DEPLOY_KEY}}
-     host : ${{secrets.DEPLOY_IP}}
+     host :  ${{secrets.DEPLOY_IP}}
      usernmae : ${{secrets.DEPLOY_USERNAME}}
      script : |
      pm2 delete all
