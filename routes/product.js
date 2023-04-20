@@ -73,7 +73,7 @@ router.delete("/", authenticateAdmin, async (req, res) => {
 // GET /api/products/find/:id
 router.get("/details", async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  // console.log(id);
   Product.findById(req?.query?.id)
     .then((product) => {
       if (!product) {
@@ -95,8 +95,10 @@ router.get("/details", async (req, res) => {
 //Get all products
 // GET /api/products
 router.get("/find/", async (req, res) => {
+
   const qNew = req.query.new;
   const qCategory = req.query.category;
+  // console.log(qCategory);
   if (qNew) {
     Product.find()
       .sort({ _id: -1 })
@@ -118,13 +120,14 @@ router.get("/find/", async (req, res) => {
       });
   }
   if (qCategory) {
+    // Product.find({ categories: { $in: [qCategory] } }).exec()
     Product.find({
       categories: {
         $in: [qCategory],
       },
     })
-
       .then((products) => {
+        // console.log(products);
         if (!products) {
           return res.status(404).json({
             error: "No products found",
@@ -158,5 +161,6 @@ router.get("/find/", async (req, res) => {
       });
   }
 });
+
 
 module.exports = router;
