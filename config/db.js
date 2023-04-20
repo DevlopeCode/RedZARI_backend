@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const connectToMongo = () => {
   mongoose
-    .connect("mongodb://localhost:27017", {
+    .connect("mongodb+srv://redzhari:wE5m4qXOSQjOaW3t@cluster0.50gcuib.mongodb.net/test", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -15,3 +15,5 @@ const connectToMongo = () => {
     });
 };
 module.exports = connectToMongo;
+// redzhari
+// wE5m4qXOSQjOaW3t

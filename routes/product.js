@@ -12,7 +12,6 @@ router.post("/", authenticateTokenAdmin, async (req, res) => {
   const newProduct = new Product(req.body);
   newProduct
     .save()
-
     .then((product) => {
       return res.status(200).json({
         product,
@@ -20,17 +19,17 @@ router.post("/", authenticateTokenAdmin, async (req, res) => {
     })
     .catch((err) => {
       return res.status(500).json({
-        error: err,
+        error: err.code!==11000 ? err.message: `${Object.keys(err.keyValue).toString()} Must be unique`
+
       });
     });
 });
 
 //Update a product
 // PUT /api/products/:id
-router.put("/:id", authenticateAdmin, async (req, res) => {
-  const { id } = req.params;
-  Product.findByIdAndUpdate(id, req.body, { new: true })
+router.put("/", authenticateAdmin, async (req, res) => {
 
+  Product.findByIdAndUpdate(req?.query?.id, req.body, { new: true })
     .then((product) => {
       if (!product) {
         return res.status(404).json({
@@ -50,10 +49,9 @@ router.put("/:id", authenticateAdmin, async (req, res) => {
 
 //Delete a product
 // DELETE /api/products/:id
-router.delete("/:id", authenticateAdmin, async (req, res) => {
+router.delete("/", authenticateAdmin, async (req, res) => {
   const { id } = req.params;
-  Product.findByIdAndDelete(id)
-
+ Product.remove({ _id: req?.query?.id })
     .then((product) => {
       if (!product) {
         return res.status(404).json({
@@ -73,9 +71,10 @@ router.delete("/:id", authenticateAdmin, async (req, res) => {
 
 //Get a product
 // GET /api/products/find/:id
-router.get("/find/:id", async (req, res) => {
+router.get("/details", async (req, res) => {
   const { id } = req.params;
-  Product.findById(id)
+  console.log(id);
+  Product.findById(req?.query?.id)
     .then((product) => {
       if (!product) {
         return res.status(404).json({

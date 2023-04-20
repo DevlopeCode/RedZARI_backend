@@ -12,7 +12,6 @@ router.post("/", authenticate, async (req, res) => {
   const newCart = new Cart(req.body);
   newCart
     .save()
-
     .then((cart) => {
       return res.status(200).json({
         cart,
@@ -50,10 +49,8 @@ router.put("/:id", authenticateTokenAdmin, async (req, res) => {
 
 //Delete a cart
 // DELETE /api/carts/:id
-router.delete("/:id", authenticateAdmin, async (req, res) => {
-  const { id } = req.params;
-  Cart.findByIdAndDelete(id)
-
+router.delete("/", authenticateAdmin, async (req, res) => {
+  Cart.findByIdAndDelete(req?.query.id)
     .then((cart) => {
       if (!cart) {
         return res.status(404).json({
@@ -73,7 +70,7 @@ router.delete("/:id", authenticateAdmin, async (req, res) => {
 
 //Get a user cart
 // GET /api/carts/find/:userId
-router.get("/find/:userId", authenticateAdmin, async (req, res) => {
+router.get("/find", authenticateAdmin, async (req, res) => {
   const { userId } = req.params;
   Cart.findOne({ userId })
     .then((cart) => {
