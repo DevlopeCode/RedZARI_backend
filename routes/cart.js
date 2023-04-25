@@ -70,9 +70,9 @@ router.delete("/", authenticateAdmin, async (req, res) => {
 
 //Get a user cart
 // GET /api/carts/find/:userId
-router.get("/find", authenticateAdmin, async (req, res) => {
-  const { userId } = req.params;
-  Cart.findOne({ userId })
+router.get("/find", authenticate, async (req, res) => {
+  const { userId } = req.query;
+  Cart.find({ userId })
     .then((cart) => {
       if (!cart) {
         return res.status(404).json({
@@ -92,7 +92,7 @@ router.get("/find", authenticateAdmin, async (req, res) => {
 
 //Get all
 // GET /api/carts/find/
-router.get("/find/", authenticateAdmin, async (req, res) => {
+router.get("/find/all", authenticateAdmin, async (req, res) => {
   Cart.find()
     .then((carts) => {
       if (!carts) {
