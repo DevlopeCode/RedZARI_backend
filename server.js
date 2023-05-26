@@ -14,7 +14,8 @@ const app = express();
 connectToMongo();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan("dev"));
+ 
+// app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(cors());
@@ -31,9 +32,9 @@ app.use((req, res, next) => {
   req.requestTime=new Date().toISOString()
   next();
 });
-app.get("/", (req, res) => {
-  res.send("Sup nigga?");
-});
+// app.get("/", (req, res) => {
+//   res.send("Sup nigga?");
+// });
 app.listen(PORT, () => {
   console.log(`Backend Server is running on port ${PORT}`);
 });
