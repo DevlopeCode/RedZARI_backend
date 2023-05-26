@@ -32,9 +32,9 @@ app.use((req, res, next) => {
   req.requestTime=new Date().toISOString()
   next();
 });
-// app.get("/", (req, res) => {
-//   res.send("Sup nigga?");
-// });
+app.get("/", (req, res) => {
+  res.send("Sup nigga?");
+});
 app.listen(PORT, () => {
   console.log(`Backend Server is running on port ${PORT}`);
 });
