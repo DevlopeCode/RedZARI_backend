@@ -5,11 +5,32 @@ const {
   authenticateAdmin,
 } = require("./middleware/authenticate");
 const Product = require("../Modals/Product");
+const multer = require('multer');
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads"), // cb -> callback
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${file.originalname}`;
+    cb(null, uniqueName);
+  },
+});
+
+
+  const upload = multer({  storage,
+    limits: { fileSize: 1000000 * 5 }, });
 //Create Product
 // POST /api/products
-router.post("/", authenticateTokenAdmin, async (req, res) => {
-  const newProduct = new Product(req.body);
+router.post("/", upload.single('img'),authenticateTokenAdmin, async (req, res) => {
+ 
+ const image = req.file.path;
+ console.log(req.file.path);
+ const { title ,desc,color,size,categories,price,inStock}=req.body
+  const newProduct = new Product({
+    title ,desc,color,size,categories,price,inStock,img:image
+  });
+
   newProduct
     .save()
     .then((product) => {
