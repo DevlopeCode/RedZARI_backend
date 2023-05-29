@@ -22,9 +22,12 @@ router.put("/:id", authenticateTokenAdmin, async (req, res) => {
 
     .then((user) => {
       if (!user) {
-        return res.status(404).json({
+       return res.status(404).end().json({
           error: "User not found",
-        });
+        })
+        // return res.status(404).json({
+        //   error: "User not found",
+        // });
       }
       return res.status(200).json({
         user,
@@ -45,9 +48,13 @@ router.delete("/:id", authenticateTokenAdmin, async (req, res) => {
 
     .then((user) => {
       if (!user) {
-        return res.status(404).json({
+        return  res.status(404).end().json({
           error: "User not found",
-        });
+        })
+
+        // return res.status(404).json({
+        //   error: "User not found",
+        // });
       }
       return res.status(200).json({
         Message: "User deleted successfully",

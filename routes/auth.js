@@ -32,6 +32,8 @@ router.post(
     const { username, email, password } = req.body;
   await  User.findOne({ email }).then((user) => {
       if (user) {
+ 
+
         return res.status(400).json({
           success,
           msg: "User already exists",
@@ -62,6 +64,8 @@ try {
     success,
     error: "Something went wrong",
   });
+  res.end()
+
 }
     
       
@@ -122,6 +126,8 @@ router.post(
         authToken,
         isAdmin: user.isAdmin,
       });
+      res.end()
+
     });
   }
 );
