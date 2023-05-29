@@ -15,7 +15,7 @@ connectToMongo();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
  
-// app.use(morgan("dev"));
+app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(cors());
