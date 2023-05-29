@@ -30,31 +30,41 @@ router.post(
     }
 
     const { username, email, password } = req.body;
-    User.findOne({ email }).then((user) => {
+  await  User.findOne({ email }).then((user) => {
       if (user) {
         return res.status(400).json({
           success,
           msg: "User already exists",
         });
       } else {
-        const newUser = new User({
-          username: username,
-          email: email,
-          password: CryptoJS.AES.encrypt(password, key),
-        });
-        newUser.save((err) => {
-          if (err) {
-            return res.status(500).json({
-              success,
-              error: "Something went wrong",
-            });
-          }
-          success = true;
-          return res.status(201).json({
-            success,
-            message: "User created successfully",
-          });
-        });
+     
+try {
+  const newUser = new User({
+    username: username,
+    email: email,
+    password: CryptoJS.AES.encrypt(password, key),
+  });
+  newUser.save((err) => {
+    if (err) {
+      return res.status(500).json({
+        success,
+        error: "Something went wrong",
+      });
+    }
+    success = true;
+    return res.status(201).json({
+      success,
+      message: "User created successfully",
+    });
+  });
+} catch (error) {
+  res.status(500).json({
+    success,
+    error: "Something went wrong",
+  });
+}
+    
+      
       }
     });
   }
